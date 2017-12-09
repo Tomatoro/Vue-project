@@ -1,0 +1,4 @@
+1创建文件夹
+  scr -> components -> 将来里面放所有的子组件
+  scr -> app.js 
+  scr -> app.vue 主要的路由父组件(公共部分,头部,底部)
