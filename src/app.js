@@ -52,6 +52,7 @@ let router = new VueRouter({
     { path: '/share', component: share},
     { path: '/video', component: video},
     { path: '/news/:id', component: newsDetail,props:true},
+    //路由传参的时候,在路由规则中设置props:true
     { path: '/share/:id', component: shareDetial,props:true},
   ]
 })

@@ -13,7 +13,7 @@
         <h4>提交评论</h4>
 
         <div class="submitcomment">
-            <textarea placeholder="请输入评论内容" v-model="cmtContent"></textarea>
+            <textarea placeholder="请输入评论内容" v-model="cmtContent" @keyup.13="postComments"></textarea>
             <button class="mui-btn mui-btn-primary" @click.prevent="postComments">发表</button>
         </div>
             
@@ -35,7 +35,7 @@
         </div>
 
         <div class="more">
-            <button class="mui-btn mui-btn-primary mui-btn-outlined">加载更多</button>
+            <button class="mui-btn mui-btn-primary mui-btn-outlined" @click="getMore" >加载更多</button>
         </div>
     </div>
   </div>
@@ -44,13 +44,17 @@
 
 <script>
 import "../../../../statics/css/style.css";
+//弹出框
+import { Toast } from 'mint-ui';
+//需要引入的css样式,在home.vue已经引用
 
 export default {
   data() {
     return {
       news: {},
       comments:[],
-      cmtContent:''
+      cmtContent:'',
+      pageindex:1
     };
   },
   created: function() {
@@ -68,7 +72,7 @@ export default {
               this.news = response.data.message[0];
             }
           } else {
-            alert("请求数据失败");
+            Toast("请求数据失败");
           }
         })
         .catch(err => {
@@ -77,12 +81,12 @@ export default {
     },
     getComments(){
       this.$http
-        .get("getcomments/"+this.id+"?pageindex=1")
+        .get("getcomments/"+this.id+"?pageindex="+this.pageindex)
         .then((response) => {
           if(response.status === 200 && response.data.status === 0){
-            this.comments = response.data.message
+            this.comments = this.comments.concat(response.data.message)
           }else{
-            alert("请求数据失败")
+            Toast("请求数据失败")
           }
         })
         .catch((err) => {
@@ -90,19 +94,30 @@ export default {
         })
     },
     postComments(){
-      if(this.cmtContent == ''){
-        return alert('内容不能为空')
+      // this.pageindex = 1
+      if(this.cmtContent.trim() == ''){
+        return Toast('内容不能为空');
       }
       console.log(this.cmtContent)
       this.$http
-        .post("postcomment/"+this.id,"content="+this.cmtContent)
+        .post("postcomment/"+this.id,'content='+this.cmtContent)
         .then((response)=>{
           if(response.status === 200 && response.data.status ===0 ){
             console.log(response)
+            this.comments.unshift({
+              user_name:'匿名用户',
+              add_time:new Date(),
+              content:this.cmtContent
+            })
+            // this.getComments();
             this.cmtContent= ''
-            this.getComments();
           }
+            Toast(response.data.message)
         })
+    },
+    getMore(){
+      this.pageindex ++
+      this.getComments();
     }
   }
 };
