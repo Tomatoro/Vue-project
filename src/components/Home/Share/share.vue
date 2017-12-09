@@ -3,27 +3,27 @@
 
 	<div class="share">
 		<div class="category">
-			<ul ref="cul">
+			<ul :style="ulWidth">
 				<li>
-					<a @click="getImages(0)">全部</a>	
+					<a @click.prevent="getImages(-1)">全部</a>	
 				</li>
 				<li v-for="item in category" :key="item.id">
-					<a @click="getImages(item.id)">{{item.title}}</a>
+					<a @click.prevent="getImages(item.id)">{{item.title}}</a>
 				</li>
 			</ul>
 		</div>
 		<div class="imglist">
 			<ul>
-          <li v-for="(item,index) in images" :key="index">
-              <router-link v-bind='{to:"/share/"+item.id}'>
-                  <img :src="item.img_url">
-              </router-link>
-              <p>
-                  <span class="title" v-text="item.title"></span><br />
-                  {{item.zhaiyao}}
-              </p>
-          </li>
-      </ul>
+                <li v-for="(item,index) in images" :key="index">
+                    <router-link :to="{path:'/share/' + item.id}">
+                        <img v-lazy="item.img_url">
+                    </router-link>
+                    <p>
+                        <span class="title" v-text="item.title"></span><br/>
+                        {{item.zhaiyao}}
+                    </p>
+                </li>
+            </ul>
 		</div>
 	</div>
 </div>
@@ -36,12 +36,13 @@
             return {
                 category: [],
                 images: [],
+                ulWidth:'width : 1000px'
             }
         },
         props:["id"],
         created: function() {
             this.getImgCategory();
-            this.getImages(0);
+            this.getImages(-1);
         },
         methods:{
           getImgCategory(){
@@ -50,6 +51,7 @@
               .then((response)=>{
                 if(response.status === 200 && response.data.status == 0){
                   this.category = response.data.message
+                  this.ulWidth = 'width:'+(this.category.length*66 + 45)+'px'
                 }
               })
           },
@@ -89,6 +91,7 @@
     
     .imglist ul {
         padding: 0;
+        margin: 0;
     }
     
     .imglist li {
@@ -107,8 +110,12 @@
     }*/
     /*懒加载图片样式end*/
     
+
+    /* webkit核心的浏览器 隐藏滚动条 */
+    ::-webkit-scrollbar{
+        display:none;
+    }
     .category {
-        /* width: 1000px; */
         overflow-x: auto;
         overflow-y: scroll;
     }
