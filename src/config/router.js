@@ -24,6 +24,11 @@ import newsDetail from '../components/Home/News/detail.vue'
 
 //图片详情
 import shareDetail from '../components/Home/Share/detail.vue'
+
+//商品详情
+import buyDetail from '../components/Home/Buy/detail.vue'
+//商品评论
+import buyComment from '../components/Home/Buy/comment.vue'
 //穿件路由对象
 let router = new VueRouter({
   linkActiveClass: 'mui-active',
@@ -39,9 +44,15 @@ let router = new VueRouter({
     { path: '/news', component: news },
     { path: '/share', component: share },
     { path: '/video', component: video },
+    //设置新闻详情路由
     { path: '/news/:id', component: newsDetail, props: true },
     //路由传参的时候,在路由规则中设置props:true
+    //设置图片分享详情路由
     { path: '/share/:id', component: shareDetail, props: true },
+    //设置商品详情路由
+    { path: '/buy/:id', component:buyDetail, props:true },
+    //设置商品评论路由
+    { name:"buyComment", path: '/buy/comment/:id', component:buyComment, props:true }
   ]
 })
 

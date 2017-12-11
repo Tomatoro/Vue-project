@@ -6,9 +6,9 @@
         </div>
 
         <ul class="mui-table-view mui-grid-view mui-grid-9">
-            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" v-for="(item,index) in thumImages" :key="index">
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"  v-for="(item,index) in thumImages" :key="index">
               <a href="javascript:;">
-                   <img v-lazy="item.src" alt="缩略图">
+                   <img v-lazy="item.src" alt="缩略图" class="preview-img" @click="$preview.open(index, thumImages)">
               </a>
             </li>
         </ul> 
@@ -24,6 +24,10 @@
 
 //评论
 import comment from '../../Common/comment.vue'
+//引入图片放大 vue-preview插件
+import Vue from 'vue'
+import VuePreview from 'vue-preview'
+Vue.use(VuePreview)
 
 export default {
   data() {
@@ -61,6 +65,11 @@ export default {
         .then(response => {
           if (response.status === 200 && response.data.status === 0) {
             this.thumImages = response.data.message;
+            //循环设置每一个大图片的宽高
+            this.thumImages.forEach(item=>{
+              item.w = 600
+              item.h = 400
+            })
           }
         })
         .catch(err => {
