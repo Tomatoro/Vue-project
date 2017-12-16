@@ -34,10 +34,11 @@ let router = new VueRouter({
   linkActiveClass: 'mui-active',
   routes: [
     { path: '/', component: home },
-    { path: '/home', component: home },
-    { path: '/member', component: member },
-    { path: '/search', component: search },
-    { path: '/shopcar', component: shopcar },
+    { path: '/home', meta:{ title:'首页' }, component: home },
+    { path: '/member', meta:{ title:'会员中心' },component: member },
+    { path: '/search', meta:{ title:'购物中心' },component: search },
+    { path: '/shopcar', meta:{ title:'搜索'}, component: shopcar },
+
     { path: '/buy', component: buy },
     { path: '/contact', component: contact },
     { path: '/feedback', component: feedback },

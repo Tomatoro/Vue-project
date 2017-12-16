@@ -32,6 +32,8 @@
 <script>
 	//引入组件通信的模块
 	import bus from './config/bus'
+	//引入本地存储模块
+	import { getLocalData ,updateLocalData } from './config/localstorage'
 
   export default {
     data(){
@@ -42,6 +44,7 @@
       }
 		},
 		created(){
+			this.getNum()
 			//当页面刷新的时候,因为路由地址没有发生变化,不会执行watch,所以要在组件构建完成后,
 			//判断是否显示后退按钮
 			this.judgeBack(this.$route.path)
@@ -56,8 +59,14 @@
 			// let thiss = this
 			bus.$on('updateBadge',function(count){
 				console.log(count)
-				this.num = count
+				this.num += count
 			}.bind(this))
+
+			//购物车number加减更新badge
+			bus.$on('updateBadge2',()=>{
+				this.getNum()
+			})
+
 		},
 		watch:{
 			//监听$router 当里面的值发生变化的时候,获取它的value,进行相应操作
@@ -76,6 +85,16 @@
 				}else{
 					this.isShow = false
 				}
+			},
+			getNum(){
+					//读取本地存储中的商品总数
+				let localdata = getLocalData()
+				let num = 0
+				localdata.forEach(item=>{
+					num += item.count
+				})
+				//当所有的加完之后再赋值给this.num 避免每次改动都触bus.$on()
+				this.num = num
 			}
 		}
   }

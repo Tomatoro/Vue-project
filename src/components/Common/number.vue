@@ -8,16 +8,22 @@
   export default {
     data(){
       return {
-        count: 1
+        count: 1,
+        type:''
       }
     },
-    props:['stock'],
+    props:['stock','num','id'],
+    created(){
+      console.log(this.num)
+      this.count = this.num?this.num:1
+    },
     methods:{
       add(){
         if(this.count >= this.stock){
             return
         }
         this.count++
+        this.type = 'add'
         this.notify()
       },
       sub(){
@@ -25,6 +31,7 @@
           return
         }
         this.count--
+        this.type = 'sub'
         this.notify()
       },
       //建立一个事件触发器
@@ -33,7 +40,8 @@
       //第一个参数是自定义的监听事件名称 eg numberChange
       //第二个参数以后就是传递给订阅者的所有参数
       notify(){
-        this.$emit('numberChange',this.count)
+        // this.$emit('numberChange',this.count)
+        this.$emit('numberChange',{id:this.id,count:this.count,type:this.type})
       }
     }
   }
