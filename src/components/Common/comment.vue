@@ -11,7 +11,7 @@
           <h4>评论列表</h4>
       </div>    
 
-      <div class="item" v-for="(item,index) in comments ":key="index">
+      <div class="item" v-for="(item,index) in comments" :key="index">
           <div class="content">评论内容</div>
           <div>
               <span class="user">{{item.user_name}}</span> 

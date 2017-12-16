@@ -36,25 +36,29 @@ let router = new VueRouter({
     { path: '/', component: home },
     { path: '/home', meta:{ title:'首页' }, component: home },
     { path: '/member', meta:{ title:'会员中心' },component: member },
-    { path: '/search', meta:{ title:'购物中心' },component: search },
-    { path: '/shopcar', meta:{ title:'搜索'}, component: shopcar },
+    { path: '/search', meta:{ title:'搜索' },component: search },
+    { path: '/shopcar', meta: { title:'购物中心'}, component: shopcar },
 
-    { path: '/buy', component: buy },
-    { path: '/contact', component: contact },
-    { path: '/feedback', component: feedback },
-    { path: '/news', component: news },
-    { path: '/share', component: share },
-    { path: '/video', component: video },
+    { path: '/buy', meta: { title: '商品购买' }, component: buy },
+    { path: '/contact', meta: { title: '联系我们' }, component: contact },
+    { path: '/feedback', meta: { title: '留言反馈' },component: feedback },
+    { path: '/news', meta: { title: '新闻资讯' },component: news },
+    { path: '/share', meta: { title: '图片分享' },component: share },
+    { path: '/video', meta: { title: '视频专区' }, component: video },
     //设置新闻详情路由
-    { path: '/news/:id', component: newsDetail, props: true },
+    { path: '/news/:id', meta: { title: '新闻' }, component: newsDetail, props: true },
     //路由传参的时候,在路由规则中设置props:true
     //设置图片分享详情路由
-    { path: '/share/:id', component: shareDetail, props: true },
+    { path: '/share/:id', meta: { title: '图片分享' }, component: shareDetail, props: true },
     //设置商品详情路由
-    { path: '/buy/:id', component:buyDetail, props:true },
+    { path: '/buy/:id', meta: { title: '商品详情' },component:buyDetail, props:true },
     //设置商品评论路由
-    { name:"buyComment", path: '/buy/comment/:id', component:buyComment, props:true }
+    { name: "buyComment", meta: { title: '商品评论' },path: '/buy/comment/:id', component:buyComment, props:true }
   ]
+})
+//路由跳转之后执行
+router.afterEach((to,from)=>{
+    document.title = to.meta.title
 })
 
 // 导出路由对象

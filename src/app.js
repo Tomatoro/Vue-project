@@ -17,6 +17,9 @@ let vm = new Vue({
   el:'#app',
   router,
   render: c => c(app),
+  //render:function(creatElement){
+  //  return creatElement(app) 
+  //}
   created(){
     // 添加请求拦截器
     this.axios.interceptors.request.use(function (config) {

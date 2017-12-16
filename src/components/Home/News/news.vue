@@ -3,17 +3,16 @@
     <h1>News</h1>
     <ul class="mui-table-view">
 				<li class="mui-table-view-cell mui-media" v-for="(item,index) in messageArr" :key="index">
-					<router-link :to="{ path: '/news/'+ item.id}" append></router-link>
+					<router-link :to="{ path: '/news/'+ item.id}" append>
 						<img class="mui-media-object mui-pull-left" :src="item.img_url">
 						<div class="mui-media-body mui-ellipsis">
 							{{item.title}}
 							<p class='mui-ellipsis'>发表时间{{item.add_time|fmtTime('YYYY-MM-DD')}}</p>
 							<span>点击数{{item.click}}</span>
 						</div>
-					</a>
+					</router-link>
 				</li>
 			</ul>
-  <router-view></router-view>
   </div>
 </template>
 
