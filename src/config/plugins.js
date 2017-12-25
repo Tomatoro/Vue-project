@@ -5,8 +5,8 @@ import Vue from 'vue'
 
 //引用 axios 因为它并不是Vue的插件,所以没有use
 import axios from 'axios'
-axios.defaults.baseURL = 'http://127.0.0.1:8899/api/'
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.baseURL = 'http://47.94.12.33:8080/api/'
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 //让所有的vue实例都共享axios
 Vue.prototype.$http = axios
 Vue.prototype.axios = axios
